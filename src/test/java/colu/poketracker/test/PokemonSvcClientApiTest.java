@@ -5,7 +5,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -92,13 +94,16 @@ public class PokemonSvcClientApiTest {
 		Set<String> moveset1 = new HashSet<String>();
 		moveset1.add("Thunderbolt");
 		moveset1.add("Nuzzle");
-		moveset1.add("Quick Attack");
+		moveset1.add("Rain Dance");
 		moveset1.add("Light Screen");
+		
+		Map<Pokemon.Stat, Integer> evs1 = new HashMap<Pokemon.Stat, Integer>();
+		evs1.put(Pokemon.Stat.SPEED, new Integer(252));
 		
 		Set<Pokemon.Stat> ivs1 = new HashSet<Pokemon.Stat>();
 		ivs1.add(Pokemon.Stat.SPEED);
 		
-		mon1 = new Pokemon("Sparky", "Pikachu", 12345, "Timid", "Static", "Light Ball", false, moveset1, ivs1);
+		mon1 = new Pokemon("Sparky", "Pikachu", 12345, "Timid", "Static", "Light Ball", false, moveset1, evs1, ivs1);
 		pokemonService.addPokemon(mon1);
 		
 		// Leafeon
@@ -118,18 +123,22 @@ public class PokemonSvcClientApiTest {
 		moveset3.add("Bug Buzz");
 		moveset3.add("Hurricane");
 		
+		Map<Pokemon.Stat, Integer> evs3 = new HashMap<Pokemon.Stat, Integer>();
+		evs3.put(Pokemon.Stat.SPECIAL_ATTACK, new Integer(252));
+		evs3.put(Pokemon.Stat.SPEED, new Integer(252));
+		
 		Set<Pokemon.Stat> ivs3 = new HashSet<Pokemon.Stat>();
 		ivs3.add(Pokemon.Stat.SPEED);
 		ivs3.add(Pokemon.Stat.SPECIAL_DEFENSE);
 		ivs3.add(Pokemon.Stat.SPECIAL_ATTACK);
 		ivs3.add(Pokemon.Stat.HP);
 		
-		mon3 = new Pokemon("Scarlet", "Volcarona", 12345, "Modest", "Flame Body", "Leftovers", false, moveset3, ivs3);
+		mon3 = new Pokemon("Scarlet", "Volcarona", 12345, "Modest", "Flame Body", "Leftovers", false, moveset3, evs3, ivs3);
 		pokemonService.addPokemon(mon3);
 		
 		// Another Pikachu
 		
-		mon4 = new Pokemon("Chuchu", "Pikachu", 12345, "Timid", "Static", "Light Ball", false, moveset1, ivs1);
+		mon4 = new Pokemon("Chuchu", "Pikachu", 12345, "Timid", "Static", "Light Ball", false, moveset1, evs1, ivs1);
 		pokemonService.addPokemon(mon4);
 	}
 
@@ -137,6 +146,9 @@ public class PokemonSvcClientApiTest {
 	 * Tests verify:
 	 * 	(1) Each Pokemon was added to the PokemonSvc
 	 * 	(2) We can find the right Pokemon by ID
+	 *  (3) We can search for Pokemon by name
+	 *  (4) We can search for Pokemon by species
+	 *  (5) We can delete Pokemon
 	 * 
 	 * @throws Exception
 	 */
@@ -145,7 +157,6 @@ public class PokemonSvcClientApiTest {
 
 		// (1) Each Pokemon was added to the PokemonSvc
 		Collection<Pokemon> mons = pokemonService.getPokemonList();
-		
 		assertTrue(mons.contains(mon1));
 		assertTrue(mons.contains(mon2));
 		assertTrue(mons.contains(mon3));
@@ -170,6 +181,11 @@ public class PokemonSvcClientApiTest {
 		assertTrue(speciesResults.size() == 2);
 		assertTrue(speciesResults.contains(mon1));
 		assertTrue(speciesResults.contains(mon4));
+		
+		// (5) We can delete Pokemon
+		pokemonService.deletePokemonById(4);
+		Collection<Pokemon> newMons = pokemonService.getPokemonList();
+		assertFalse(newMons.contains(mon4));
 	}
 	
 	/**

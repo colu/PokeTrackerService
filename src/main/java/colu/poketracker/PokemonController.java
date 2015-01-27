@@ -40,7 +40,7 @@ public class PokemonController {
 		
 		Pokemon p = pokemons.findOne(id);
 		
-		// Return 404 if the video is not found
+		// Return 404 if the Pokemon is not found
 		if (p == null) {
 			return new ResponseEntity<Pokemon>(HttpStatus.NOT_FOUND);
 		}
@@ -50,12 +50,31 @@ public class PokemonController {
 	
 	// POST /pokemon
 	@RequestMapping(value=PokemonSvcApi.POKEMON_SVC_PATH, method=RequestMethod.POST)
-	public @ResponseBody Pokemon addPokemon(@RequestBody Pokemon p) {
+	public @ResponseBody Pokemon addPokemon(
+			@RequestBody Pokemon p) {
 		
 		pokemons.save(p);
 		
 		return p;
 	}
+	
+	// DELETE /pokemon/{id}
+	@RequestMapping(value=PokemonSvcApi.POKEMON_SVC_PATH + "/{id}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<Void> deletePokemonById(
+			@PathVariable("id") long id) {
+		
+		Pokemon p = pokemons.findOne(id);
+		
+		pokemons.delete(id);
+		
+		// Return 404 if the Pokemon is not found
+		if (p == null) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
 
 	// GET /pokemon/search/findByName?name={name}
 	@RequestMapping(value=PokemonSvcApi.POKEMON_NAME_SEARCH_PATH, method=RequestMethod.GET)

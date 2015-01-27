@@ -18,8 +18,4 @@ public interface PokemonRepository extends CrudRepository<Pokemon, Long>{
 	// Find all Pokemon with a matching species name
 	public Collection<Pokemon> findBySpecies(String species);
 	
-	public enum PKMN {
-		BULBASAUR, IVYSAUR, VENUSAUR, CHARMANDER, CHARMELEON, CHARIZARD, SQUIRTLE, WARTORTLE, BLASTOISE
-	}
-	
 }

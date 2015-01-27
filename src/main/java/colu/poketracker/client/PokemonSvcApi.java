@@ -7,6 +7,7 @@ import colu.poketracker.repository.Pokemon;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.DELETE;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -41,6 +42,9 @@ public interface PokemonSvcApi {
 	
 	@POST(POKEMON_SVC_PATH)
 	public Pokemon addPokemon(@Body Pokemon p);
+	
+	@DELETE(POKEMON_SVC_PATH + "/{id}")
+	public Void deletePokemonById(@Path("id") long id);
 	
 	@GET(POKEMON_NAME_SEARCH_PATH)
 	public Collection<Pokemon> findByName(@Query(NAME_PARAMETER) String name);

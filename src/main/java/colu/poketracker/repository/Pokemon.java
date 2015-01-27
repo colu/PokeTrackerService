@@ -1,5 +1,7 @@
 package colu.poketracker.repository;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -38,18 +40,22 @@ public class Pokemon {
 	@ElementCollection
 	private Set<String> moveset = new HashSet<String>();
 	
-	// Tracks which IV stats of the Pokemon are perfect
 	public enum Stat {
 		HP, ATTACK, DEFENSE, SPECIAL_ATTACK, SPECIAL_DEFENSE, SPEED;
 	}
 	
+	// Tracks which EVs the Pokemon has earned
+	@ElementCollection
+	private Map<Stat, Integer> evs = new HashMap<Stat, Integer>();
+	
+	// Tracks which IVs are perfect
 	@ElementCollection
 	private Set<Stat> ivs = new HashSet<Stat>();
 	
 	public Pokemon() {
 	}
 
-	public Pokemon(String name, String species, long trainer, String nature, String ability, String item, boolean shiny, Set<String> moveset, Set<Stat> ivs) {
+	public Pokemon(String name, String species, long trainer, String nature, String ability, String item, boolean shiny, Set<String> moveset, Map<Stat, Integer> evs, Set<Stat> ivs) {
 		
 		super();
 		this.name = name;
@@ -60,6 +66,7 @@ public class Pokemon {
 		this.item = item;
 		this.shiny = shiny;
 		this.moveset = moveset;
+		this.evs = evs;
 		this.ivs = ivs;
 	}
 	
@@ -148,6 +155,14 @@ public class Pokemon {
 		this.moveset = moveset;
 	}
 	
+	public Map<Stat, Integer> getEvs() {
+		return evs;
+	}
+	
+	public void setEvs(Map<Stat, Integer> evs) {
+		this.evs = evs;
+	}	
+	
 	public Set<Stat> getIvs() {
 		return ivs;
 	}
@@ -163,18 +178,18 @@ public class Pokemon {
 	
 	/**
 	 * Two Pokemon will generate the same hashcode if they have exactly the same
-	 * values for their name, species, nature, item, shiny, moveset, and ivs.
+	 * values for their name, species, nature, item, shiny, moveset, evs, and ivs.
 	 * 
 	 */
 	@Override
 	public int hashCode() {
 		// uses Google Guava
-		return Objects.hashCode(name, species, nature, item, shiny, moveset, ivs);
+		return Objects.hashCode(name, species, nature, item, shiny, moveset, evs, ivs);
 	}
 
 	/**
 	 * Two Pokemon are considered equal if they have exactly the same values for
-	 * their name, species, nature, item, shiny, moveset, and ivs.
+	 * their name, species, nature, item, shiny, moveset, evs, and ivs.
 	 * 
 	 */
 	@Override
@@ -188,6 +203,7 @@ public class Pokemon {
 					&& Objects.equal(item, other.item)
 					&& Objects.equal(shiny, other.shiny)
 					&& Objects.equal(moveset, other.moveset)
+					&& Objects.equal(evs, other.evs)
 					&& Objects.equal(ivs, other.ivs);
 		} else {
 			return false;

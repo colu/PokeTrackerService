@@ -51,6 +51,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  *  OAuth2SecurityConfiguration.containerCustomizer(...) - update this method to use a real keystore
  *  and certificate signed by a CA. This current version is highly insecure.
  *  
+ *  @author jules
+ *  
  */
 @Configuration
 public class OAuth2SecurityConfiguration {
@@ -149,20 +151,18 @@ public class OAuth2SecurityConfiguration {
 			
 			// Create a service that has the credentials for all our clients
 			ClientDetailsService csvc = new InMemoryClientDetailsServiceBuilder()
-					// Create a client that has "read" and "write" access to the
-			        // video service
+					// Create a client that has "read" and "write" access to the service
 					.withClient("mobile").authorizedGrantTypes("password")
 					.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
-					.scopes("read","write").resourceIds("video")
+					.scopes("read","write").resourceIds("pokemon")
 					.and()
-					// Create a second client that only has "read" access to the
-					// video service
+					// Create a second client that only has "read" access to the service
 					.withClient("mobileReader").authorizedGrantTypes("password")
 					.authorities("ROLE_CLIENT")
-					.scopes("read").resourceIds("video")
+					.scopes("read").resourceIds("pokemon")
 					.accessTokenValiditySeconds(3600).and().build();
 
-			// Create a series of hard-coded users (ADMIN = Doctor, USER = Patient)
+			// Create a series of hard-coded users
 			UserDetailsService svc = new InMemoryUserDetailsManager(
 					Arrays.asList(
 							User.create("admin", "pass", "ADMIN", "USER") ));
