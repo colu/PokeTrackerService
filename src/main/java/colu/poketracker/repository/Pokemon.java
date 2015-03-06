@@ -1,7 +1,6 @@
 package colu.poketracker.repository;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -41,12 +40,33 @@ public class Pokemon {
 	private Set<String> moveset = new HashSet<String>();
 	
 	public enum Stat {
-		HP, ATTACK, DEFENSE, SPECIAL_ATTACK, SPECIAL_DEFENSE, SPEED;
+		HP("HP", "HP"), 
+		ATTACK("Attack", "Atk"), 
+		DEFENSE("Defense", "Def"), 
+		SPECIAL_ATTACK("Special Attack", "SpA"), 
+		SPECIAL_DEFENSE("Special Defense", "SpD"), 
+		SPEED("Speed", "Spe");
+		
+		private String fullname;
+		private String shorthand;
+		
+		Stat(String fullname, String shorthand) {
+			this.fullname = fullname;
+			this.shorthand = shorthand;
+		}
+		
+		public String getFullname() {
+			return fullname;
+		}
+		
+		public String getShorthand() {
+			return shorthand;
+		}
 	}
 	
 	// Tracks which EVs the Pokemon has earned
 	@ElementCollection
-	private Map<Stat, Integer> evs = new HashMap<Stat, Integer>();
+	private HashMap<Stat, Integer> evs = new HashMap<Stat, Integer>();
 	
 	// Tracks which IVs are perfect
 	@ElementCollection
@@ -55,7 +75,8 @@ public class Pokemon {
 	public Pokemon() {
 	}
 
-	public Pokemon(String name, String species, long trainer, String nature, String ability, String item, boolean shiny, Set<String> moveset, Map<Stat, Integer> evs, Set<Stat> ivs) {
+	public Pokemon(String name, String species, long trainer, String nature, String ability, 
+			String item, boolean shiny, Set<String> moveset, HashMap<Stat, Integer> evs, Set<Stat> ivs) {
 		
 		super();
 		this.name = name;
@@ -70,7 +91,8 @@ public class Pokemon {
 		this.ivs = ivs;
 	}
 	
-	public Pokemon(String name, String species, long trainer, String nature, String ability, String item, boolean shiny, Set<String> moveset) {
+	public Pokemon(String name, String species, long trainer, String nature, String ability, 
+			String item, boolean shiny, Set<String> moveset) {
 		
 		super();
 		this.name = name;
@@ -155,11 +177,11 @@ public class Pokemon {
 		this.moveset = moveset;
 	}
 	
-	public Map<Stat, Integer> getEvs() {
+	public HashMap<Stat, Integer> getEvs() {
 		return evs;
 	}
 	
-	public void setEvs(Map<Stat, Integer> evs) {
+	public void setEvs(HashMap<Stat, Integer> evs) {
 		this.evs = evs;
 	}	
 	

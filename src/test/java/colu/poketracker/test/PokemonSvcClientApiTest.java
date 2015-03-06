@@ -7,7 +7,6 @@ import static org.junit.Assert.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -97,13 +96,14 @@ public class PokemonSvcClientApiTest {
 		moveset1.add("Rain Dance");
 		moveset1.add("Light Screen");
 		
-		Map<Pokemon.Stat, Integer> evs1 = new HashMap<Pokemon.Stat, Integer>();
+		HashMap<Pokemon.Stat, Integer> evs1 = new HashMap<Pokemon.Stat, Integer>();
 		evs1.put(Pokemon.Stat.SPEED, new Integer(252));
 		
 		Set<Pokemon.Stat> ivs1 = new HashSet<Pokemon.Stat>();
 		ivs1.add(Pokemon.Stat.SPEED);
 		
-		mon1 = new Pokemon("Sparky", "Pikachu", 12345, "Timid", "Static", "Light Ball", false, moveset1, evs1, ivs1);
+		mon1 = new Pokemon("Sparky", "Pikachu", 12345, "Timid", "Static", 
+				"Light Ball", false, moveset1, evs1, ivs1);
 		pokemonService.addPokemon(mon1);
 		
 		// Leafeon
@@ -113,7 +113,8 @@ public class PokemonSvcClientApiTest {
 		moveset2.add("Sunny Day");
 		moveset2.add("Synthesis");
 		
-		mon2 = new Pokemon("Blade", "Leafeon", 12345, "Adamant", "Leaf Guard", "Lum Berry", false, moveset2);
+		mon2 = new Pokemon("Blade", "Leafeon", 12345, "Adamant", "Leaf Guard", 
+				"Lum Berry", false, moveset2);
 		pokemonService.addPokemon(mon2);
 		
 		// Volcarona
@@ -123,7 +124,7 @@ public class PokemonSvcClientApiTest {
 		moveset3.add("Bug Buzz");
 		moveset3.add("Hurricane");
 		
-		Map<Pokemon.Stat, Integer> evs3 = new HashMap<Pokemon.Stat, Integer>();
+		HashMap<Pokemon.Stat, Integer> evs3 = new HashMap<Pokemon.Stat, Integer>();
 		evs3.put(Pokemon.Stat.SPECIAL_ATTACK, new Integer(252));
 		evs3.put(Pokemon.Stat.SPEED, new Integer(252));
 		
@@ -133,12 +134,14 @@ public class PokemonSvcClientApiTest {
 		ivs3.add(Pokemon.Stat.SPECIAL_ATTACK);
 		ivs3.add(Pokemon.Stat.HP);
 		
-		mon3 = new Pokemon("Scarlet", "Volcarona", 12345, "Modest", "Flame Body", "Leftovers", false, moveset3, evs3, ivs3);
+		mon3 = new Pokemon("Scarlet", "Volcarona", 12345, "Modest", "Flame Body", 
+				"Leftovers", false, moveset3, evs3, ivs3);
 		pokemonService.addPokemon(mon3);
 		
 		// Another Pikachu
 		
-		mon4 = new Pokemon("Chuchu", "Pikachu", 12345, "Timid", "Static", "Light Ball", false, moveset1, evs1, ivs1);
+		mon4 = new Pokemon("Chuchu", "Pikachu", 12345, "Timid", "Static", 
+				"Light Ball", false, moveset1, evs1, ivs1);
 		pokemonService.addPokemon(mon4);
 	}
 
