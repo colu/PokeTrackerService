@@ -1,6 +1,7 @@
 package colu.poketracker.repository;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -66,7 +67,7 @@ public class Pokemon {
 	
 	// Tracks which EVs the Pokemon has earned
 	@ElementCollection
-	private HashMap<Stat, Integer> evs = new HashMap<Stat, Integer>();
+	private Map<Stat, Integer> evs = new HashMap<Stat, Integer>();
 	
 	// Tracks which IVs are perfect
 	@ElementCollection
@@ -76,7 +77,7 @@ public class Pokemon {
 	}
 
 	public Pokemon(String name, String species, long trainer, String nature, String ability, 
-			String item, boolean shiny, Set<String> moveset, HashMap<Stat, Integer> evs, Set<Stat> ivs) {
+			String item, boolean shiny, Set<String> moveset, Map<Stat, Integer> evs, Set<Stat> ivs) {
 		
 		super();
 		this.name = name;
@@ -177,11 +178,11 @@ public class Pokemon {
 		this.moveset = moveset;
 	}
 	
-	public HashMap<Stat, Integer> getEvs() {
+	public Map<Stat, Integer> getEvs() {
 		return evs;
 	}
 	
-	public void setEvs(HashMap<Stat, Integer> evs) {
+	public void setEvs(Map<Stat, Integer> evs) {
 		this.evs = evs;
 	}	
 	
