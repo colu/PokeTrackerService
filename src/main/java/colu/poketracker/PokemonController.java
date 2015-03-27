@@ -34,7 +34,7 @@ public class PokemonController {
 	}
 	
 	// GET /pokemon/{id}
-	@RequestMapping(value=PokemonSvcApi.POKEMON_SVC_PATH + "/{id}", method=RequestMethod.GET)
+	@RequestMapping(value=PokemonSvcApi.POKEMON_SVC_PATH_ID, method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Pokemon> getPokemonById(
 			@PathVariable("id") long id) {
 		
@@ -55,26 +55,52 @@ public class PokemonController {
 		
 		pokemons.save(p);
 		
-		return p;
+		return p;	
 	}
 	
+	// POST /pokemon/{id}/edit
+	@RequestMapping(value=PokemonSvcApi.POKEMON_SVC_PATH_EDIT, method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Void> editPokemon(
+			@PathVariable("id") long id,
+			@RequestBody Pokemon p) {
+
+		Pokemon p0 = pokemons.findOne(id);
+		
+		// Return 404 if the Pokemon is not found
+		if (p0 == null) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+		
+		p0.setName(p.getName());
+		p0.setNature(p.getNature());
+		p0.setAbility(p.getAbility());
+		p0.setItem(p.getItem());
+		p0.setShiny(p.getShiny());
+		p0.setMoveset(p.getMoveset());
+		p0.setIvs(p.getIvs());
+		p0.setEvs(p.getEvs());
+		
+		pokemons.save(p0);
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);		
+	}	
+	
 	// DELETE /pokemon/{id}
-	@RequestMapping(value=PokemonSvcApi.POKEMON_SVC_PATH + "/{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value=PokemonSvcApi.POKEMON_SVC_PATH_ID, method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<Void> deletePokemonById(
 			@PathVariable("id") long id) {
 		
 		Pokemon p = pokemons.findOne(id);
-		
-		pokemons.delete(id);
 		
 		// Return 404 if the Pokemon is not found
 		if (p == null) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 		
+		pokemons.delete(id);
+		
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
 
 	// GET /pokemon/search/findByName?name={name}
 	@RequestMapping(value=PokemonSvcApi.POKEMON_NAME_SEARCH_PATH, method=RequestMethod.GET)

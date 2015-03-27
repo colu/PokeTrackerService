@@ -153,12 +153,13 @@ public class PokemonSvcClientApiTest {
 	 *  (3) We can search for Pokemon by name
 	 *  (4) We can search for Pokemon by species
 	 *  (5) We can delete Pokemon
+	 *  (6) We can edit existing Pokemon
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testPokemonSvcClient() throws Exception {
-
+		
 		// (1) Each Pokemon was added to the PokemonSvc
 		Collection<Pokemon> mons = pokemonService.getPokemonList();
 		assertTrue(mons.contains(mon1));
@@ -190,6 +191,19 @@ public class PokemonSvcClientApiTest {
 		pokemonService.deletePokemonById(4);
 		Collection<Pokemon> newMons = pokemonService.getPokemonList();
 		assertFalse(newMons.contains(mon4));
+		
+		// (6) We can edit existing Pokemon
+		mon2.setAbility("Chlorophyll");
+		mon2.setItem("Quick Claw");
+		
+		pokemonService.editPokemon(2, mon2);
+		Collection<Pokemon> editMons = pokemonService.findByName("Blade");
+		Pokemon[] editMonsArray = (Pokemon[]) editMons.toArray(new Pokemon[1]);
+		Pokemon newLeafeon = editMonsArray[0];
+		
+		assertTrue(newLeafeon.getId() == 2);
+		assertTrue(newLeafeon.getAbility().equals("Chlorophyll"));
+		assertTrue(newLeafeon.getItem().equals("Quick Claw"));
 	}
 	
 	/**

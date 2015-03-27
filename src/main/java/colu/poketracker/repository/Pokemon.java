@@ -105,7 +105,7 @@ public class Pokemon {
 		this.shiny = shiny;
 		this.moveset = moveset;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -196,7 +196,7 @@ public class Pokemon {
 	
 	@Override
 	public String toString() {
-		return this.name + " (" + this.species + "), " + this.nature + " nature, holding" + this.item;
+		return this.name + " (" + this.species + "), " + this.nature + " nature, holding " + this.item;
 	}
 	
 	/**
